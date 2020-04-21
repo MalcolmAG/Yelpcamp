@@ -30,7 +30,10 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect("mongodb://localhost/yelp_camp");
+//  LOCAL
+// mongoose.connect("mongodb://localhost/yelp_camp");
+// SERVER
+mongoose.connect("mongodb://heroku_2hxrfx77:4tip8dq0sbl9381rt0g22tmeap@ds149593.mlab.com:49593/heroku_2hxrfx77");
 
 // Express
 app = express();
