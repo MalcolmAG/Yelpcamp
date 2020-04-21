@@ -1,0 +1,18 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <header class="jumbotron">
+        <h1 class="display-1"> Information for <%= user.username %>  </h1>
+    </header>
+    <% for (const camp of user.campgrounds) { %>
+        <p> <%= camp %>  </p>
+    <% } %>
+    <% for (const comment of user.comments) { %>
+        <p> <%= comment %>  </p>
+    <% } %>
+
+
+
+</div>
+
+<%- include("../partials/footer") %>

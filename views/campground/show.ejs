@@ -1,0 +1,84 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <div class="row">
+        <!-- SIDEBAR -->
+        <div class="col-md-3">
+            <p class="lead"> Yelp Camp</p>
+            <div class="list-group">
+                <li class="list-group-item active"> info 1 </li>
+                <li class="list-group-item"> info 2 </li>
+                <li class="list-group-item"> info 3 </li>
+            </div>
+            <div class="map mt-3" style="width:100%; height:100px; border: 2px solid black">
+                <p> MAP PLACEHOLDER </p>
+            </div>
+        </div>
+        <!-- MAIN CONTENT -->
+        <div class="col-md-9">
+            <div class="card mb-3">
+                <!-- IMAGE -->
+                <img class="img-responsive" src="<%= camp.image %>">
+                <!-- CAMP INFORMATION -->
+                <div class="card-body p-2">
+                    <div class="float-right">
+                        <h4>$<%= camp.cost %>/Night</h4>
+                    </div>
+                    <h4> <a href=""><%= camp.name %> </a> </h4>
+                    <p class="m-0"> <%= camp.description %> </p>
+                    <div class="camp-number-reviews float-right">
+                        <p class="m-0"> <%= camp.comments.length %> Reviews  </p>
+                    </div>
+                    <p class="m-0"> <em> Submitted By: <%= camp.author.username %>, <%= moment(camp.createdAt).fromNow() %> </em> </p>
+                    <div class="camp-rating">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    
+                    <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
+                        <!-- EDIT & DELETE BUTTONS -->
+                        <a class="btn btn-primary" href="/campgrounds/<%= camp._id %>/edit"> Edit Campground</a>
+                        <form class="d-inline" action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger"> Delete Campground</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- COMMENTS -->
+            <div class="card card-body bg-light">
+                <!-- NEW COMMENT -->
+                <div class="align-self-end">
+                    <a class="btn btn-success" href="/campgrounds/<%= camp._id %>/comments/new "> (Turn into dropdown) New Comment</a>
+                </div>
+
+                <hr>
+
+                <!-- DISPLAY COMMENTS -->
+                <% for(const comment of camp.comments) {%> 
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <span class="float-right">  <%= moment(comment.createdAt).fromNow() %> </span>
+                            <p class="mb-0"> <i class="fas fa-star"></i> <%= comment.author.username %> </p>
+                            <p class="mb-0"> <%= comment.text %> </p>
+
+                            <!-- Only if user is allowed -->
+                            <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+                                <!-- EDIT -->
+                                <a class="btn btn-sm btn-outline-warning" 
+                                href="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>/edit"> edit 
+                                </a>
+                                <!-- DELETE -->
+                                <form class="d-inline" action="/campgrounds/<%= camp._id %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-sm btn-outline-danger"> delete </button>
+                                </form>   
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include("../partials/footer") %>

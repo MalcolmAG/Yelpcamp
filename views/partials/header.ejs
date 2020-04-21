@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> YelpCamp </title>
+    <!-- Personal StyleSheet -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    <!-- CDN Styles -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6ec3a3aada.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="/"> YelpCamp </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarToggle">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/campgrounds"> View Campgrounds</a>
+        </li>
+      </ul>
+      <div>
+        <% if(!currentUser) { %> 
+          <a href="/register" class="btn btn-outline-primary"> Sign Up </a>
+          <a href="/login" class="btn btn-outline-primary"> Log In </a>
+        <% } else { %> 
+          <span class="navbar-text">
+            <a class="nav-link" href="#">Signed In As: <%= currentUser.username %> </a>
+          </span>
+          <a href="/logout" class="btn btn-outline-primary"> Logout </a>
+        <% } %> 
+      </div>
+    </div>
+</nav>
+
+<div class="container">
+  <!-- Error Alert -->
+  <% if (err && err.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= err %>
+    </div>
+  <% } %>
+  <!-- Success Alert -->
+  <% if (success && success.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+      <%= success %>
+    </div>
+  <% } %>
+</div>

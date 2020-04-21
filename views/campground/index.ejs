@@ -1,0 +1,41 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <header class="jumbotron">
+        <h1 class="display-1"> Welcome to Yelp Camp </h1>
+        <p>View our handpicked campgrounds from all over the world</p>
+        <% if (currentUser) { %>
+            <a class="btn btn-primary btn-large" href="/campgrounds/new" role="button">Add New Campground</a>
+        <%} else { %>
+            <div class="alert" id="LoginSignupPrompt">
+                Log in or sign up to create a campground
+                <div class="d-inline">
+                    <a href="/login" class="btn btn-outline-primary"> Login </a>
+                    <a href="/register" class="btn btn-primary"> Signup </a>
+                
+                </div>
+            </div> 
+        <% } %>
+
+    </header>
+    
+    <!-- section: row: col: card -->
+    <section id="gallery">
+        <!-- d-flex enabled on row -->
+        <div class="row text-center"> 
+            <% for(const camp of campgrounds) {%> 
+                <div class="col-lg-6 col-xl-4 mb-3">
+                    <div class="card">
+                        <img class="img-fluid" src="<%= camp.image %>">
+                        <div class="card-body">
+                            <p> <%= camp.name %> </p>
+                            <a href="/campgrounds/<%= camp._id %> " class="btn btn-outline-danger"> More Info</a>
+                        </div>
+                    </div>
+                </div>
+            <% } %> 
+        </div>
+    </section>
+</div>
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,13 @@
+body{
+    background-color: white;
+}
+
+div#LoginSignupPrompt{
+    border: 1px solid rgba(0,0,0,0.1);
+    width: 50%;
+    color: gray
+}
+
+div.usercred{
+    width: 30%;
+}
