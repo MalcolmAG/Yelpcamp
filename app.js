@@ -78,5 +78,3 @@ app.use("/", indexRoutes);
 app.listen(port, () => {
     console.log("Server Has Started!");
 });
-
-// TODO: Delete default values in login form

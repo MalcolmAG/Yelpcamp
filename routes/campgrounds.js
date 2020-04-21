@@ -21,7 +21,6 @@ router.get("/", (req, res) => {
  * NEW - Displays form to make a new campground
  * path: /campgrounds/new
  */
-// 
 router.get("/new", midware.isLoggedIn, (req, res) => {
     res.render("campground/new");
 })
@@ -30,7 +29,6 @@ router.get("/new", midware.isLoggedIn, (req, res) => {
  * CREATE - Adds a new campground to DB
  * path: /campgrounds
  */
-// 
 router.post("/", midware.isLoggedIn, async (req, res) => {
     try{
         let camp = await Campground.create(req.body.camp);
@@ -88,7 +86,6 @@ router.get("/:id/edit", midware.checkCampgroundOwnership, (req, res) => {
  * UPDATE - Update a campground
  * path: /campgrounds/:id
  */
-// 
 router.put("/:id", midware.checkCampgroundOwnership, (req, res) => {
     Campground.findByIdAndUpdate(req.params.id, req.body.camp, (err, camp) => {
         if (err) return console.log(err);
@@ -109,7 +106,6 @@ router.delete("/:id", midware.checkCampgroundOwnership, (req, res) => {
         let user = await User.findByIdAndUpdate(req.user.id, {
             $pull: {campgrounds: {_id: req.params.id}}
         })
-        console.log(user);
         res.redirect("/campgrounds");
     })
 })
