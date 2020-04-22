@@ -134,9 +134,10 @@ var seedDB = async function(){
         me = {
             email: "mag@gmail.com",
             username: "Malcolm",
-            password: "a"
+            password: "a",
+            isAdmin: true
         }
-        await User.register({email: me.email, username: me.username}, me.password);
+        await User.register({email: me.email, username: me.username, isAdmin: me.isAdmin}, me.password);
 
     }
     catch (err){

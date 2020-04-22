@@ -21,7 +21,7 @@ middlewareObj = {
                 return res.redirect("back")
             }
             // if user & author are the same
-            if (comment.author.id.equals(req.user.id)){
+            if (comment.author.id.equals(req.user.id) || req.user.isAdmin){
                 next();
             } else {
                 req.flash("error", "You don't have permission to do that")
@@ -37,7 +37,7 @@ middlewareObj = {
         Campground.findById(req.params.id, (err, camp) =>{
             if (err) return res.redirect("back")
             // if user & author are the same
-            if (camp.author.id.equals(req.user.id)){
+            if (camp.author.id.equals(req.user.id) || req.user.isAdmin){
                 next();
             } else {
                 res.redirect("back");

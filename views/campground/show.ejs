@@ -34,7 +34,7 @@
                         <i class="fas fa-star"></i>
                     </div>
                     
-                    <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
+                    <% if ( (currentUser && camp.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin) ) { %>
                         <!-- EDIT & DELETE BUTTONS -->
                         <a class="btn btn-primary" href="/campgrounds/<%= camp._id %>/edit"> Edit Campground</a>
                         <form class="d-inline" action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
@@ -60,9 +60,8 @@
                             <span class="float-right">  <%= moment(comment.createdAt).fromNow() %> </span>
                             <p class="mb-0"> <i class="fas fa-star"></i> <%= comment.author.username %> </p>
                             <p class="mb-0"> <%= comment.text %> </p>
-
                             <!-- Only if user is allowed -->
-                            <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+                            <% if ( (currentUser && comment.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin) ) { %>
                                 <!-- EDIT -->
                                 <a class="btn btn-sm btn-outline-warning" 
                                 href="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>/edit"> edit 
