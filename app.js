@@ -14,9 +14,7 @@ const express       = require("express"),
 // 
 // 
 // Mongoose Models
-const Comment       = require("./models/comment"),
-      Campground    = require("./models/campground"),
-      seedDB        = require("./seed"),
+const seedDB        = require("./seed"),
       User          = require("./models/user");
 
 // Routes
