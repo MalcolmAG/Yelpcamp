@@ -18,7 +18,7 @@
         <div class="col-md-9">
             <div class="card mb-3">
                 <!-- IMAGE -->
-                <img class="img-responsive" src="<%= camp.image %>">
+                <img class="img-responsive camp-show-image" src="<%= camp.image %>">
                 <!-- CAMP INFORMATION -->
                 <div class="card-body p-2">
                     <div class="float-right">
@@ -29,7 +29,9 @@
                     <div class="camp-number-reviews float-right">
                         <p class="m-0"> <%= camp.comments.length %> Reviews  </p>
                     </div>
-                    <p class="m-0"> <em> Submitted By: <%= camp.author.username %>, <%= moment(camp.createdAt).fromNow() %> </em> </p>
+                    <p class="m-0"> 
+                        <a href="/user/<%= camp.author.username %>" class="to-user-profile"> <em> Submitted By: <%= camp.author.username %></a>, <%= moment(camp.createdAt).fromNow() %> </em> 
+                    </p>
                     <div class="camp-rating">
                         <i class="fas fa-star"></i>
                     </div>
@@ -58,7 +60,7 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <span class="float-right">  <%= moment(comment.createdAt).fromNow() %> </span>
-                            <p class="mb-0"> <i class="fas fa-star"></i> <%= comment.author.username %> </p>
+                            <p class="mb-0"> <i class="fas fa-star"></i> <a href="/user/<%= comment.author.username %>" class="to-user-profile" > <%= comment.author.username %> </a> </p>
                             <p class="mb-0"> <%= comment.text %> </p>
                             <!-- Only if user is allowed -->
                             <% if ( (currentUser && comment.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin) ) { %>

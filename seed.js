@@ -81,13 +81,7 @@ var createCampUser = async function(){
         camp.save();
         console.log("Author pushed to camp");
 
-
-        campinfo = {
-            _id: camp._id,
-            name: camp.name
-        }
-
-        user.campgrounds.push(campinfo);
+        user.campgrounds.push(camp);
         user.save();
         
         console.log("Camp pushed to author");

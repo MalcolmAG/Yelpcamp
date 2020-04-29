@@ -12,12 +12,14 @@
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-md navbar-light bg-light">
     <a class="navbar-brand" href="/"> YelpCamp </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
+    <!-- COLLAPSIBLE SECTION -->
     <div class="collapse navbar-collapse" id="navbarToggle">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -30,7 +32,7 @@
           <a href="/login" class="btn btn-outline-primary"> Log In </a>
         <% } else { %> 
           <span class="navbar-text">
-            <a class="nav-link" href="#">Signed In As: <%= currentUser.username %> </a>
+            <a class="nav-link" href="/user/<%= currentUser.username %>">  Signed In As: <%= currentUser.username %> </a>
           </span>
           <a href="/logout" class="btn btn-outline-primary"> Logout </a>
         <% } %> 
@@ -38,6 +40,7 @@
     </div>
 </nav>
 
+<!-- ALERTS -->
 <div class="container">
   <!-- Error Alert -->
   <% if (err && err.length > 0) { %>
@@ -52,3 +55,5 @@
     </div>
   <% } %>
 </div>
+
+<!-- REST OF BODY -->

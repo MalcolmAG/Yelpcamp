@@ -11,3 +11,15 @@ div#LoginSignupPrompt{
 div.usercred{
     width: 30%;
 }
+
+img.camp-show-image{
+    width: auto;
+    height: auto;
+}
+
+a.to-user-profile{
+    color:black;
+}
+a.to-user-profile:hover{
+    color:rgb(0,100,230);
+}

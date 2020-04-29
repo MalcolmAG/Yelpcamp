@@ -1,18 +1,45 @@
 <%- include("../partials/header") %>
 
 <div class="container">
-    <header class="jumbotron">
-        <h1 class="display-1"> Information for <%= user.username %>  </h1>
-    </header>
-    <% for (const camp of user.campgrounds) { %>
-        <p> <%= camp %>  </p>
-    <% } %>
-    <% for (const comment of user.comments) { %>
-        <p> <%= comment %>  </p>
-    <% } %>
-
-
-
+    <div class="row">
+        <div class="col-3">
+            <h1 class=""> <%= user.username %> </h1>
+            <% if(user.avatar === "default") {%>
+                <i class="far fa-user fa-10x user-show-avatar"></i>
+            <% } else { %>
+                <img src="<%= user.avatar %>"  alt="User's Avatar">
+            <% } %> 
+            <hr>
+            <% if (user.description === "default") { %>
+                <em> Add a custom description </em>
+            <% } else { %>
+                user.description
+            <% } %>
+        </div>
+        <div class="col-9">
+            <h2> Submitted Campgrounds: </h2>
+            <% for (const camp of user.campgrounds) { %>
+                <div class="card mb-3">
+                    <div class="row no-gutters">
+                      <div class="col-md-4">
+                          <a href="/campgrounds/<%= camp.id %>">
+                            <img src="<%= camp.image %>" class="card-img" alt="...">
+                          </a>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                            <a href="/campgrounds/<%= camp.id %>">
+                                <h5 class="card-title"><%= camp.name %></h5>
+                            </a>
+                            <p class="card-text m-0"><%= camp.description.substring(0,100) %> <%= (camp.description.length < 100 ? "" : "...") %> </p>
+                            <p class="card-text"><small class="text-muted">Last updated <%= moment(camp.createdAt).fromNow() %> </small></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            <% } %>
+        </div>
+    </div>
 </div>
 
 <%- include("../partials/footer") %>
