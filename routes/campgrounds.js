@@ -42,12 +42,7 @@ router.post("/", midware.isLoggedIn, async (req, res) => {
         camp.author = author;
         camp.save();
 
-        // Save camp id in user
-        var campinfo = {
-            _id: camp.id,
-            name: camp.name 
-        }
-        user.campgrounds.push(campinfo);
+        user.campgrounds.push(camp);
         user.save();
         res.redirect("/campgrounds");
     }

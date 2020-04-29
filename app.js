@@ -66,7 +66,7 @@ app.use((req, res, next) => {
     next()
 });
 
-// seedDB();
+seedDB();
 
 //index must be last to ensure "page not found" route is last
 app.use("/campgrounds", campgroundRoutes);
