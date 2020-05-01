@@ -17,13 +17,13 @@ Core Features:
 - User creation and authentication with PassportJS
 
 Extra Features: 
-[x] Admin User
-[x] User Profile Page
-[x] Slugify camp show routes
-[ ] Google Maps integration
-[ ] Pagination
-[ ] Collapsible comment section
-[ ] Ratings, Reviews, & Likes
-[ ] Passport reset
-[ ] Fuzzy search
-[ ] Image upload
+- [x] Admin User
+- [x] User Profile Page
+- [x] Slugify camp show routes
+- [ ] Google Maps integration
+- [ ] Pagination
+- [ ] Collapsible comment section
+- [ ] Ratings, Reviews, & Likes
+- [ ] Passport reset
+- [ ] Fuzzy search
+- [ ] Image upload
