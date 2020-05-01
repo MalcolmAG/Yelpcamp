@@ -9,7 +9,7 @@ Technologies:
 - NodeJS
 - ExpressJS
 - MongoDB
-- Herkoku
+- Heroku
 
 
 Core Features:
