@@ -8,10 +8,10 @@ const midware       = require("../middleware");
 
 /**
  * NEW - new comment form
- * path: /campgrounds/:id/comments
+ * path: /campgrounds/:slug/comments
  */ 
 router.get("/new", midware.isLoggedIn, (req, res) => {
-    Campground.findById(req.params.id, (err, camp) => {
+    Campground.findOne({slug: req.params.slug}, (err, camp) => {
         if (err) return console.log(err);
         res.render("comment/new", {campground: camp});
     })  
@@ -19,11 +19,11 @@ router.get("/new", midware.isLoggedIn, (req, res) => {
 
 /**
  * CREATE - adds comment to db and campground
- * path: /campgrounds/:id
+ * path: /campgrounds/:slug
  */
 router.post("/", midware.isLoggedIn, async (req, res) => {
     try{
-        let camp = await Campground.findById(req.params.id);
+        let camp = await Campground.findOne({slug: req.params.slug});
         let newComment = await Comment.create(req.body.comment);
         let user = await User.findById(req.user.id);
         author = {
@@ -40,7 +40,7 @@ router.post("/", midware.isLoggedIn, async (req, res) => {
         user.save();
         // req.flash("success", "Comment Added");
 
-        res.redirect("/campgrounds/" + req.params.id);
+        res.redirect("/campgrounds/" + req.params.slug);
     }
     catch(err){
         console.log(err);
@@ -51,18 +51,18 @@ router.post("/", midware.isLoggedIn, async (req, res) => {
 
 /**
  * EDIT - Renders Edit form for comment
- * path: /campgrounds/:id/comments/:commentId/edit
+ * path: /campgrounds/:slug/comments/:commentId/edit
  */
 router.get("/:commentId/edit", midware.checkCommentOwnership, (req, res) => {
     Comment.findById(req.params.commentId, (err, comment) => {
-        res.render("comment/edit", {comment: comment, campId: req.params.id});
+        res.render("comment/edit", {comment: comment, campSlug: req.params.slug});
     });
     
 })
 
 /**
  * UPDATE - Updates comment with new text
- * path: /campgrounds/:id/comments/:commentId
+ * path: /campgrounds/:slug/comments/:commentId
  */
 router.put("/:commentId", midware.checkCommentOwnership, (req, res) => {
     Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, (err, comment) => {
@@ -72,14 +72,14 @@ router.put("/:commentId", midware.checkCommentOwnership, (req, res) => {
             res.redirect("back")
         } 
         // req.flash("success", "Comment Edited");
-        res.redirect("/campgrounds/" + req.params.id);
+        res.redirect("/campgrounds/" + req.params.slug);
     });
 })
 
 /**
  * DELETE - deletes all occurences of comment in db
  * Note: also deletes from user and campground 
- * path: /campgrounds/:id/comments/:commentId
+ * path: /campgrounds/:slug/comments/:commentId
  */
 router.delete("/:commentId", midware.checkCommentOwnership, (req, res) => {
     Comment.findByIdAndDelete(req.params.commentId, async (err, commentRemoved) => {
@@ -88,14 +88,14 @@ router.delete("/:commentId", midware.checkCommentOwnership, (req, res) => {
             console.log(err);
             return res.redirect("back");
         } 
-        await Campground.findByIdAndUpdate(req.params.id, {
+        await Campground.findOneAndUpdate({slug: req.params.slug}, {
             $pull: {comments: req.params.commentId}
         })
         let user = await User.findByIdAndUpdate(req.user.id, {
             $pull: {comments: req.params.commentId}
         })
         req.flash("success", "Comment Deleted");
-        res.redirect("/campgrounds/" + req.params.id);
+        res.redirect("/campgrounds/" + req.params.slug);
     })
 })
 

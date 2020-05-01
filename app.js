@@ -11,8 +11,6 @@ const express       = require("express"),
  * EX: Comment should point to author(user), but should user point to all of 
  * their comments?
  */
-// 
-// 
 // Mongoose Models
 const seedDB        = require("./seed"),
       User          = require("./models/user");
@@ -66,11 +64,11 @@ app.use((req, res, next) => {
     next()
 });
 
-seedDB();
+// seedDB();
 
 //index must be last to ensure "page not found" route is last
 app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/campgrounds/:slug/comments", commentRoutes);
 app.use("/", userRoutes);
 app.use("/", indexRoutes); 
 

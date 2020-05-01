@@ -4,14 +4,14 @@
     <div class="d-flex flex-column align-items-center">
         <div class="w-50">
             <h1> Edit Comment </h1>
-            <form action="/campgrounds/<%= campId %>/comments/<%= comment.id %>?_method=PUT"   method="POST">
+            <form action="/campgrounds/<%= campSlug %>/comments/<%= comment.id %>?_method=PUT"   method="POST">
                 <div class="form-group">
                     <label for="comment"> Commenting As: <%= currentUser.username %> </label>
                     <textarea id="comment" class="form-control" name="comment[text]"><%= comment.text %></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary"> Submit </button>
             </form>
-            <a href="/campgrounds/<%= campId %>"> Go Back </a>  
+            <a href="/campgrounds/<%= campSlug %>"> Go Back </a>  
         </div>  
     </div>
 </div>

@@ -53,11 +53,11 @@ router.post("/", midware.isLoggedIn, async (req, res) => {
 
 /**
  * SHOW - Shows info about one campground
- * path: /campgrounds/:id
+ * path: /campgrounds/:slug
  */
-router.get("/:id", (req, res) => {
-    // console.log(req.params.id);
-    Campground.findById(req.params.id).populate("comments").exec((err, camp) => {
+router.get("/:slug", (req, res) => {
+    // console.log();
+    Campground.findOne({slug: req.params.slug}).populate("comments").exec((err, camp) => {
         if (err) return console.log(err);
         res.render("campground/show", {camp: camp});
     });
@@ -65,10 +65,10 @@ router.get("/:id", (req, res) => {
 
 /**
  * EDIT - Edit info about one campground
- * path: /campgrounds/:id/edit
+ * path: /campgrounds/:slug/edit
  */
-router.get("/:id/edit", midware.checkCampgroundOwnership, (req, res) => {
-    Campground.findById(req.params.id, (err, camp) =>{  
+router.get("/:slug/edit", midware.checkCampgroundOwnership, (req, res) => {
+    Campground.findOne({slug: req.params.slug}, (err, camp) => {  
         if (err) {
             req.flash("error", "Something Went Wrong");
             res.redirect("back")
@@ -79,27 +79,33 @@ router.get("/:id/edit", midware.checkCampgroundOwnership, (req, res) => {
 
 /**
  * UPDATE - Update a campground
- * path: /campgrounds/:id
+ * path: /campgrounds/:slug
  */
-router.put("/:id", midware.checkCampgroundOwnership, (req, res) => {
-    Campground.findByIdAndUpdate(req.params.id, req.body.camp, (err, camp) => {
-        if (err) return console.log(err);
-        // console.log(camp); // gives back old one
-        res.redirect("/campgrounds/" + req.params.id);
-    });
+router.put("/:slug", midware.checkCampgroundOwnership, async (req, res) => {
+    try {
+        let camp = await Campground.findOne({slug: req.params.slug});
+        camp.name = req.body.camp.name;
+        camp.description = req.body.camp.description;
+        camp.image = req.body.camp.image;
+        await camp.save();
+        res.redirect("/campgrounds/" + camp.slug);
+    } catch (error) {
+        console.log(err);
+        res.redirect("/campgrounds");
+    }
 })
 
 /**
  * DELETE - Delete all occurences of Campground. 
  * Note: Also deletes all comments associated with campground and 
  * from user campground reference
- * path: /campgrounds/:id
+ * path: /campgrounds/:slug
  */
-router.delete("/:id", midware.checkCampgroundOwnership, (req, res) => {
-    Campground.findByIdAndDelete(req.params.id, async (err, campRemoved) => {
+router.delete("/:slug", midware.checkCampgroundOwnership, (req, res) => {
+    Campground.findOneAndDelete({slug: req.params.slug}, async (err, campRemoved) => {
         if (err) return console.log(err);
         let user = await User.findByIdAndUpdate(req.user.id, {
-            $pull: {campgrounds: {_id: req.params.id}}
+            $pull: {campgrounds: {_id: campRemoved.id}}
         })
         res.redirect("/campgrounds");
     })

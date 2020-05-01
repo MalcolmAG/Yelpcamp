@@ -34,7 +34,7 @@ middlewareObj = {
             // return res.status(401).location('/login').end();
             return res.redirect("back");
         }
-        Campground.findById(req.params.id, (err, camp) =>{
+        Campground.findOne({slug: req.params.slug}, (err, camp) =>{
             if (err) return res.redirect("back")
             // if user & author are the same
             if (camp.author.id.equals(req.user.id) || req.user.isAdmin){

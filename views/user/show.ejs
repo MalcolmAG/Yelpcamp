@@ -22,13 +22,13 @@
                 <div class="card mb-3">
                     <div class="row no-gutters">
                       <div class="col-md-4">
-                          <a href="/campgrounds/<%= camp.id %>">
+                          <a href="/campgrounds/<%= camp.slug %>">
                             <img src="<%= camp.image %>" class="card-img" alt="...">
                           </a>
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
-                            <a href="/campgrounds/<%= camp.id %>">
+                            <a href="/campgrounds/<%= camp.slug %>">
                                 <h5 class="card-title"><%= camp.name %></h5>
                             </a>
                             <p class="card-text m-0"><%= camp.description.substring(0,100) %> <%= (camp.description.length < 100 ? "" : "...") %> </p>

@@ -1,6 +1,7 @@
 <%- include("../partials/header") %>
 
 <div class="container">
+    <!-- HEADER -->
     <header class="jumbotron">
         <h1 class="display-1"> Welcome to Yelp Camp </h1>
         <p>View our handpicked campgrounds from all over the world</p>
@@ -16,7 +17,6 @@
                 </div>
             </div> 
         <% } %>
-
     </header>
     
     <!-- section: row: col: card -->
@@ -29,7 +29,7 @@
                         <img class="img-fluid" src="<%= camp.image %>">
                         <div class="card-body">
                             <p> <%= camp.name %> </p>
-                            <a href="/campgrounds/<%= camp._id %> " class="btn btn-outline-danger"> More Info</a>
+                            <a href="/campgrounds/<%= camp.slug %> " class="btn btn-outline-danger"> More Info</a>
                         </div>
                     </div>
                 </div>

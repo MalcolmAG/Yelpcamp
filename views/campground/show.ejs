@@ -38,8 +38,8 @@
                     
                     <% if ( (currentUser && camp.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin) ) { %>
                         <!-- EDIT & DELETE BUTTONS -->
-                        <a class="btn btn-primary" href="/campgrounds/<%= camp._id %>/edit"> Edit Campground</a>
-                        <form class="d-inline" action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
+                        <a class="btn btn-primary" href="/campgrounds/<%= camp.slug %>/edit"> Edit Campground</a>
+                        <form class="d-inline" action="/campgrounds/<%= camp.slug %>?_method=DELETE" method="POST">
                             <button class="btn btn-danger"> Delete Campground</button>
                         </form>
                     <% } %>
@@ -50,7 +50,7 @@
             <div class="card card-body bg-light">
                 <!-- NEW COMMENT -->
                 <div class="align-self-end">
-                    <a class="btn btn-success" href="/campgrounds/<%= camp._id %>/comments/new "> (Turn into dropdown) New Comment</a>
+                    <a class="btn btn-success" href="/campgrounds/<%= camp.slug %>/comments/new "> (Turn into dropdown) New Comment</a>
                 </div>
 
                 <hr>
@@ -66,10 +66,10 @@
                             <% if ( (currentUser && comment.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin) ) { %>
                                 <!-- EDIT -->
                                 <a class="btn btn-sm btn-outline-warning" 
-                                href="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>/edit"> edit 
+                                href="/campgrounds/<%= camp.slug %>/comments/<%= comment.id %>/edit"> edit 
                                 </a>
                                 <!-- DELETE -->
-                                <form class="d-inline" action="/campgrounds/<%= camp._id %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
+                                <form class="d-inline" action="/campgrounds/<%= camp.slug %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
                                     <button class="btn btn-sm btn-outline-danger"> delete </button>
                                 </form>   
                             <% } %>
