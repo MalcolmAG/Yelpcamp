@@ -13,7 +13,8 @@ const express       = require("express"),
  */
 // Mongoose Models
 const seedDB        = require("./seed"),
-      User          = require("./models/user");
+      User          = require("./models/user"),
+      Campground    = require("./models/campground");
 
 // Routes
 const commentRoutes     = require("./routes/comments"),
@@ -64,8 +65,6 @@ app.use((req, res, next) => {
     next()
 });
 
-// seedDB();
-
 //index must be last to ensure "page not found" route is last
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:slug/comments", commentRoutes);
@@ -75,3 +74,12 @@ app.use("/", indexRoutes);
 app.listen(port, () => {
     console.log("Server Has Started!");
 });
+
+if(process.env.UPDATEDB) {
+    Campground.find({}, (err, camps) => {
+        if (err) return console.log(err);
+        for(camp of camps) {
+            camp.save();
+        }
+    })
+}

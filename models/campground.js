@@ -34,7 +34,8 @@ var campgroundSchema = new mongoose.Schema({
 campgroundSchema.pre("save", async function(next) {
     try{
         // check if camp is new or updated
-        if (this.isNew || this.isModified("name")) {
+        console.log(!(this.slug));
+        if (this.isNew || this.isModified("name") || !(this.slug)) {
             this.slug = await generateUniqueSlug(this.id, this.name);
         }
         next()
