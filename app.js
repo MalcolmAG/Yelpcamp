@@ -75,7 +75,7 @@ app.listen(port, () => {
     console.log("Server Has Started!");
 });
 
-if(process.env.UPDATEDB) {
+if(process.env.UPDATE_DB) {
     Campground.find({}, (err, camps) => {
         if (err) return console.log(err);
         for(camp of camps) {
