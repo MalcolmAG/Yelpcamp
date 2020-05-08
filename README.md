@@ -23,7 +23,7 @@ Extra Features:
 - [x] Slugify camp show routes
 - [ ] Google Maps integration
 - [ ] Pagination
-- [ ] Collapsible comment section
+- [x] Collapsible comment section
 - [ ] Ratings, Reviews, & Likes
 - [ ] Passport reset
 - [ ] Fuzzy search
