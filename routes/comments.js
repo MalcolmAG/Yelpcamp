@@ -7,17 +7,6 @@ const Campground    = require("../models/campground"),
 const midware       = require("../middleware");
 
 /**
- * NEW - new comment form
- * path: /campgrounds/:slug/comments
- */ 
-router.get("/new", midware.isLoggedIn, (req, res) => {
-    Campground.findOne({slug: req.params.slug}, (err, camp) => {
-        if (err) return console.log(err);
-        res.render("comment/new", {campground: camp});
-    })  
-})
-
-/**
  * CREATE - adds comment to db and campground
  * path: /campgrounds/:slug
  */
@@ -50,17 +39,6 @@ router.post("/", midware.isLoggedIn, async (req, res) => {
 })
 
 /**
- * EDIT - Renders Edit form for comment
- * path: /campgrounds/:slug/comments/:commentId/edit
- */
-router.get("/:commentId/edit", midware.checkCommentOwnership, (req, res) => {
-    Comment.findById(req.params.commentId, (err, comment) => {
-        res.render("comment/edit", {comment: comment, campSlug: req.params.slug});
-    });
-    
-})
-
-/**
  * UPDATE - Updates comment with new text
  * path: /campgrounds/:slug/comments/:commentId
  */
@@ -71,7 +49,7 @@ router.put("/:commentId", midware.checkCommentOwnership, (req, res) => {
             console.log(err);
             res.redirect("back")
         } 
-        // req.flash("success", "Comment Edited");
+        req.flash("success", "Comment Edited");
         res.redirect("/campgrounds/" + req.params.slug);
     });
 })
@@ -98,6 +76,5 @@ router.delete("/:commentId", midware.checkCommentOwnership, (req, res) => {
         res.redirect("/campgrounds/" + req.params.slug);
     })
 })
-
 
 module.exports = router;

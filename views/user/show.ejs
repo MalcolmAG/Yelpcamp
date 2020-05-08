@@ -11,7 +11,9 @@
             <% } %> 
             <hr>
             <% if (user.description === "default") { %>
-                <em> Add a custom description </em>
+                <% if (currentUser && user._id.equals(currentUser.id)) { %>
+                    <em> Add a custom description </em>
+                <% } %>
             <% } else { %>
                 user.description
             <% } %>

@@ -21,14 +21,18 @@
                 <img class="img-responsive camp-show-image" src="<%= camp.image %>">
                 <!-- CAMP INFORMATION -->
                 <div class="card-body p-2">
+                    <!-- Cost -->
                     <div class="float-right">
                         <h4>$<%= camp.cost %>/Night</h4>
                     </div>
+                    <!-- Name & Desc -->
                     <h4> <a href=""><%= camp.name %> </a> </h4>
                     <p class="m-0"> <%= camp.description %> </p>
+                    <!-- Number of reviews -->
                     <div class="camp-number-reviews float-right">
                         <p class="m-0"> <%= camp.comments.length %> Reviews  </p>
                     </div>
+                    <!-- Since created -->
                     <p class="m-0"> 
                         <a href="/user/<%= camp.author.username %>" class="to-user-profile"> <em> Submitted By: <%= camp.author.username %></a>, <%= moment(camp.createdAt).fromNow() %> </em> 
                     </p>
@@ -48,30 +52,71 @@
 
             <!-- COMMENTS -->
             <div class="card card-body bg-light">
-                <!-- NEW COMMENT -->
-                <div class="align-self-end">
-                    <a class="btn btn-success" href="/campgrounds/<%= camp.slug %>/comments/new "> (Turn into dropdown) New Comment</a>
+                <div class="row justify-content-between">
+                    <div class="col-sm-auto">
+                        <h4>Comments <i class="fas fa-comment"></i></h4>
+                    </div>
+                    <!-- New Comment Button -->
+                    <div class="col-sm-auto">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#newCommentCollapse" aria-expanded="false" aria-controls="commentCollapse"><i class="fas fa-plus"></i> Add New Comment</button>
+                    </div>
                 </div>
+                <!-- NEW COMMENT -->
+                <div class="collapse" id="newCommentCollapse">
+                    <div class="card card-body">
+                        <!-- Login To Comment -->
+                        <% if (!currentUser) { %>
+                            <h5>You need to login before you can comment <a href="/login" class="btn btn-primary">Login</a></h5>
+                        <% } %> 
+                        <!-- If Logged in Show Comment Form -->
+                        <% if (currentUser) { %>
+                            <h5>Write your comment <i class="fas fa-pen"></i> </h5>
+                            <form action="/campgrounds/<%= camp.slug %>/comments"  method="POST">
+                                <p class="">
+                                    <%= currentUser.username %> 
+                                </p>
+                                    <div class="form-group">
+                                    <textarea class="form-control" name="comment[text]" rows="5"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Comment <i class="fas fa-comment"></i></button>
+                            </form>
+                        <% } %>
+                    </div>
+                  </div>
 
                 <hr>
 
                 <!-- DISPLAY COMMENTS -->
+                <% if (camp.comments.length === 0) { %>
+                    <em style="color: grey;">No comments yet.</em>
+                <% } %>
                 <% for(const comment of camp.comments) {%> 
                     <div class="row">
                         <div class="col-md-12 mb-3">
+                            <!-- Time of Creation -->
                             <span class="float-right">  <%= moment(comment.createdAt).fromNow() %> </span>
+                            <!-- Username -->
                             <p class="mb-0"> <i class="fas fa-star"></i> <a href="/user/<%= comment.author.username %>" class="to-user-profile" > <%= comment.author.username %> </a> </p>
+                            <!-- Comment Text -->
                             <p class="mb-0"> <%= comment.text %> </p>
-                            <!-- Only if user is allowed -->
+
+                            <!-- Only if user is authorized -->
                             <% if ( (currentUser && comment.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin) ) { %>
                                 <!-- EDIT -->
-                                <a class="btn btn-sm btn-outline-warning" 
-                                href="/campgrounds/<%= camp.slug %>/comments/<%= comment.id %>/edit"> edit 
-                                </a>
+                                <button class="btn btn-sm btn-outline-warning" type="button" data-toggle="collapse" data-target="#editCommentCollapse<%= comment.id %>" aria-expanded="false" aria-controls="commentCollapse">Edit</button>
                                 <!-- DELETE -->
                                 <form class="d-inline" action="/campgrounds/<%= camp.slug %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
                                     <button class="btn btn-sm btn-outline-danger"> delete </button>
-                                </form>   
+                                </form> 
+                                <!-- Edit Inline Form -->
+                                <div class="collapse" id="editCommentCollapse<%= comment.id %>">
+                                    <div class="card card-body">
+                                        <form action="/campgrounds/<%= camp.slug %>/comments/<%= comment.id %>?_method=PUT"  method="POST">
+                                            <textarea class="form-control" name="comment[text]" rows="5"><%= comment.text %></textarea>
+                                            <button type="submit" class="btn btn-sm btn-primary">Edit Comment <i class="fas fa-comment"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
                             <% } %>
                         </div>
                     </div>
@@ -80,6 +125,5 @@
         </div>
     </div>
 </div>
-
 
 <%- include("../partials/footer") %>
