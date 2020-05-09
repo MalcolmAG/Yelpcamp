@@ -6,11 +6,6 @@ const express       = require("express"),
       methodOverride = require("method-override"),
       flash         = require("connect-flash")
 
-/**
- * TODO DO SOME RESEARCH INTO DB DESIGN
- * EX: Comment should point to author(user), but should user point to all of 
- * their comments?
- */
 // Mongoose Models
 const seedDB        = require("./seed"),
       User          = require("./models/user"),

@@ -21,7 +21,7 @@ Extra Features:
 - [x] Admin User
 - [x] User Profile Page
 - [x] Slugify camp show routes
-- [ ] Google Maps integration
+- [x] Google Maps integration
 - [ ] Pagination
 - [x] Collapsible comment section
 - [ ] Ratings, Reviews, & Likes

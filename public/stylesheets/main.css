@@ -23,3 +23,8 @@ a.to-user-profile{
 a.to-user-profile:hover{
     color:rgb(0,100,230);
 }
+
+#map {
+    height: 400px;
+    width: 100%;
+}
