@@ -46,7 +46,7 @@ middlewareObj = {
     },
     p: function(item){
         var objType = typeof(item);
-        console.log("type: " + objType + "| value: " + item);
+        console.log("type: " + objType + " | value: " + item);
     }
 }
 

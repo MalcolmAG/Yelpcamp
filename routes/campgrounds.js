@@ -5,6 +5,16 @@ const Campground    = require("../models/campground"),
       User          = require("../models/user"),
       Comment       = require("../models/comment");
 const midware       = require("../middleware");
+var NodeGeocoder    = require("node-geocoder");
+
+var ng_options = {
+    provider: "google",
+    httpAdapter: "https",
+    apiKey: process.env.GEOCODER_API_KEY,
+    formatter: null
+}
+
+var geocoder = NodeGeocoder(ng_options);
 
 /**
  * INDEX - Show all Campgrounds
@@ -31,8 +41,23 @@ router.get("/new", midware.isLoggedIn, (req, res) => {
  */
 router.post("/", midware.isLoggedIn, async (req, res) => {
     try{
-        let camp = await Campground.create(req.body.camp);
         let user = await User.findById(req.user.id);
+
+        let data = await geocoder.geocode(req.body.camp.location);
+        // Location not found
+        if(!data) {
+            req.flash("error", "Invalid Address");
+            return res.redirect("back");
+        }
+        console.log(data);
+        var camploc = {
+            lat: data[0].latitude,
+            lng: data[0].longitude,
+            location: data[0].formattedAddress
+        }
+
+        // Merges retrieved location data & camp object
+        let camp = await Campground.create(Object.assign(camploc, req.body.camp));
         
         // Save author info to campground
         var author = {
@@ -84,13 +109,30 @@ router.get("/:slug/edit", midware.checkCampgroundOwnership, (req, res) => {
 router.put("/:slug", midware.checkCampgroundOwnership, async (req, res) => {
     try {
         let camp = await Campground.findOne({slug: req.params.slug});
-        camp.name = req.body.camp.name;
-        camp.description = req.body.camp.description;
-        camp.image = req.body.camp.image;
+
+        // if location is changed, then geocode (it takes a second)
+        var camploc = {};
+        if (camp.location != req.body.camp.location) {
+            let data = await geocoder.geocode(req.body.camp.location);
+            // Location not found
+            if(!data) {
+                req.flash("error", "Invalid Address");
+                return res.redirect("back");
+            }
+            camploc = {
+                lat: data[0].latitude,
+                lng: data[0].longitude,
+                location: data[0].formattedAddress
+            }
+        }
+        /**
+         * camplog must come after req.body.camp because camploc.location must override req.body.camp.location
+         */
+        Object.assign(camp, req.body.camp, camploc);
         await camp.save();
         res.redirect("/campgrounds/" + camp.slug);
     } catch (error) {
-        console.log(err);
+        console.log(error);
         res.redirect("/campgrounds");
     }
 })
